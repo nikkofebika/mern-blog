@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import RegisterBg from "../../assets/images/register.jpg";
 import { Input } from "../../components";
 
@@ -23,13 +24,13 @@ const Register = () => {
               type="button"
               className="bg-green-500 text-white font-semibold rounded w-full focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 py-2 hover:bg-green-600"
             >
-              Submit
+              Register
             </button>
           </form>
           <p className="text-center mt-10">
             Sudah punya akun ?{" "}
             <a href="#" className="hover:font-bold	">
-              Login
+              <Link to="/login">Login</Link>
             </a>
           </p>
         </div>

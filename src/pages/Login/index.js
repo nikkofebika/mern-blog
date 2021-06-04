@@ -1,8 +1,10 @@
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import RegisterBg from "../../assets/images/register.jpg";
 import { Input } from "../../components";
 
 const Login = () => {
+  const history = useHistory();
   return (
     <div className="md:grid md:grid-cols-3">
       <div className="md:col-span-2">
@@ -18,16 +20,17 @@ const Login = () => {
             <Input label="Password" type="password" placeholder="Password" />
             <div className="h-3" />
             <button
+              onClick={() => history.push('/')}
               type="button"
               className="bg-green-500 text-white font-semibold rounded w-full focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 py-2 hover:bg-green-600"
             >
-              Submit
+              Login
             </button>
           </form>
           <p className="text-center mt-10">
             Belum punya akun ?{" "}
             <a href="#" className="hover:font-bold	">
-              Register
+              <Link to="/register">Register</Link>
             </a>
           </p>
         </div>

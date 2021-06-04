@@ -9,9 +9,9 @@ import Home from "../Home";
 const MainApp = () => {
   return (
     <div className="container mx-auto flex flex-col">
-      <Navbar />
-      <div className="h-screen">
-        <Router>
+      <Router>
+        <Navbar />
+        <div className="h-screen">
           <Switch>
             <Route path="/create-blog">
               <CreateBlog />
@@ -19,12 +19,12 @@ const MainApp = () => {
             <Route path="/detail-blog">
               <DetailBlog />
             </Route>
-            <Route exact path="/">
+            <Route path="/">
               <Home />
             </Route>
           </Switch>
-        </Router>
-      </div>
+        </div>
+      </Router>
       <Footer />
     </div>
   );

@@ -2,9 +2,11 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
+  { name: "Home", href: "/", current: true },
   { name: "Team", href: "#", current: false },
   { name: "Projects", href: "#", current: false },
   { name: "Calendar", href: "#", current: false },
@@ -15,6 +17,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const history = useHistory();
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -33,7 +36,7 @@ export default function Navbar() {
                 </Disclosure.Button>
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center">
+                <div className="flex-shrink-0 flex items-center" onClick={() => history.push('/')}>
                   <img
                     className="block lg:hidden h-8 w-auto"
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
@@ -50,7 +53,7 @@ export default function Navbar() {
                     {navigation.map((item) => (
                       <a
                         key={item.name}
-                        href={item.href}
+                        onClick={() => history.push(item.href)}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
