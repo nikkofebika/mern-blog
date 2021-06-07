@@ -4,6 +4,7 @@ import Footer from "../../components/molecules/Footer";
 import Navbar from "../../components/molecules/Navbar";
 import CreateBlog from "../CreateBlog";
 import DetailBlog from "../DetailBlog";
+import Contoh from "../Contoh";
 import Home from "../Home";
 
 const MainApp = () => {
@@ -18,6 +19,9 @@ const MainApp = () => {
             </Route>
             <Route path="/detail-blog">
               <DetailBlog />
+            </Route>
+            <Route path="/contoh">
+              <Contoh />
             </Route>
             <Route path="/">
               <Home />
