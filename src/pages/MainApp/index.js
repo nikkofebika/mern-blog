@@ -14,10 +14,10 @@ const MainApp = () => {
         <Navbar />
         <div className="h-screen">
           <Switch>
-            <Route path="/create-blog">
+            <Route path="/create-blog/:blogId?">
               <CreateBlog />
             </Route>
-            <Route path="/detail-blog">
+            <Route path="/detail-blog/:blogId">
               <DetailBlog />
             </Route>
             <Route path="/contoh">

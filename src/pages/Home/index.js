@@ -1,24 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import BlogImg from "../../assets/images/blog.jpg";
 import { setDataBlogs } from "../../config/Redux/actions";
 
-const BlogCard = ({ title, description, image, author, createdAt }) => {
+const BlogCard = ({ _id, title, description, image, author, createdAt, onDelete }) => {
   const history = useHistory();
   return (
     <article className="rounded bg-gray-300 overflow-hidden">
-      <a onClick={() => history.push("/detail-blog")}>
-        <img src={image} alt="title" className="" />
-        <div className="p-3">
-          <h3 className="text-xl font-semibold">{title}</h3>
-          <p className="text-sm text-gray-600">
-            {author} - {createdAt}
-          </p>
-          <p className>{description}</p>
-        </div>
-      </a>
+      <img src={image} alt="title" onClick={() => history.push(`/detail-blog/${_id}`)} width="300" />
+      <div className="flex justify-end gap-x-2 mr-3">
+        <p onClick={() => history.push(`/detail-blog/${_id}`)} className="font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">Edit</p> | <p onClick={onDelete(_id)} className="font-semibold text-red-600 hover:text-red-800 cursor-pointer">Delete</p>
+      </div>
+      <div className="p-3">
+        <h3 className="text-xl font-semibold" onClick={() => history.push(`/detail-blog/${_id}`)}>{title}</h3>
+        <p className="text-sm text-gray-600">
+          {author} - {createdAt}
+        </p>
+        <p className>{description}</p>
+      </div>
     </article>
   );
 };
@@ -48,6 +50,23 @@ const Home = () => {
   const handleNext = () => {
     setCounter(counter === page.totalPage ? page.totalPage : counter + 1);
   };
+
+  const handleDelete = (id) => {
+    confirmAlert({
+      title: 'Confirm to submit',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => console.log(id)
+        },
+        {
+          label: 'No',
+          onClick: () => alert('Click No')
+        }
+      ]
+    });
+  }
   return (
     <div className="container mx-auto mt-5">
       <div className="flex justify-end">
@@ -64,11 +83,13 @@ const Home = () => {
             return (
               <BlogCard
                 key={blog._id}
+                _id={blog._id}
                 title={blog.title}
                 description={blog.description}
                 image={`http://localhost:4000/${blog.image}`}
                 author={blog.author.name}
                 createdAt={blog.createdAt}
+                onDelete={() => handleDelete}
               />
             );
           })
