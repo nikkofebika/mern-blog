@@ -1,21 +1,51 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { confirmAlert } from "react-confirm-alert";
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { setDataBlogs } from "../../config/Redux/actions";
 
-const BlogCard = ({ _id, title, description, image, author, createdAt, onDelete }) => {
+const BlogCard = ({
+  _id,
+  title,
+  description,
+  image,
+  author,
+  createdAt,
+  onDelete,
+}) => {
   const history = useHistory();
   return (
     <article className="rounded bg-gray-300 overflow-hidden">
-      <img src={image} alt="title" onClick={() => history.push(`/detail-blog/${_id}`)} width="300" />
+      <img
+        src={image}
+        alt="title"
+        onClick={() => history.push(`/detail-blog/${_id}`)}
+        width="300"
+      />
       <div className="flex justify-end gap-x-2 mr-3">
-        <p onClick={() => history.push(`/detail-blog/${_id}`)} className="font-semibold text-blue-600 hover:text-blue-800 cursor-pointer">Edit</p> | <p onClick={onDelete(_id)} className="font-semibold text-red-600 hover:text-red-800 cursor-pointer">Delete</p>
+        <p
+          onClick={() => history.push(`/create-blog/${_id}`)}
+          className="font-semibold text-blue-600 hover:text-blue-800 cursor-pointer"
+        >
+          Edit
+        </p>{" "}
+        |{" "}
+        <p
+          onClick={() => onDelete(_id)}
+          className="font-semibold text-red-600 hover:text-red-800 cursor-pointer"
+        >
+          Delete
+        </p>
       </div>
       <div className="p-3">
-        <h3 className="text-xl font-semibold" onClick={() => history.push(`/detail-blog/${_id}`)}>{title}</h3>
+        <h3
+          className="text-xl font-semibold"
+          onClick={() => history.push(`/detail-blog/${_id}`)}
+        >
+          {title}
+        </h3>
         <p className="text-sm text-gray-600">
           {author} - {createdAt}
         </p>
@@ -51,22 +81,31 @@ const Home = () => {
     setCounter(counter === page.totalPage ? page.totalPage : counter + 1);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (blogId) => {
     confirmAlert({
-      title: 'Confirm to submit',
-      message: 'Are you sure to do this.',
+      title: "Confirm to submit",
+      message: "Are you sure to do this.",
       buttons: [
         {
-          label: 'Yes',
-          onClick: () => console.log(id)
+          label: "Yes",
+          onClick: () => {
+            console.log(blogId);
+            axios
+              .delete(`http://localhost:4000/v1/blog/${blogId}`)
+              .then((result) => {
+                console.log("delete successfully : ", result);
+                dispatch(setDataBlogs(counter));
+              })
+              .catch((err) => console.log(err));
+          },
         },
         {
-          label: 'No',
-          onClick: () => alert('Click No')
-        }
-      ]
+          label: "No",
+          onClick: () => alert("Click No"),
+        },
+      ],
     });
-  }
+  };
   return (
     <div className="container mx-auto mt-5">
       <div className="flex justify-end">
@@ -89,7 +128,7 @@ const Home = () => {
                 image={`http://localhost:4000/${blog.image}`}
                 author={blog.author.name}
                 createdAt={blog.createdAt}
-                onDelete={() => handleDelete}
+                onDelete={handleDelete}
               />
             );
           })
